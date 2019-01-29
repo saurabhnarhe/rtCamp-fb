@@ -29,6 +29,8 @@ export default class FacebookLogin extends Component {
    * Check login status and call login api is user is not logged in
    */
   facebookLogin = () => {
+    this.props.onClick();
+    
     if (!this.FB) return;
 
     this.FB.getLoginStatus(response => {
@@ -45,11 +47,10 @@ export default class FacebookLogin extends Component {
    */
   facebookLoginHandler = response => {
     if (response.status === 'connected') {
-      
       this.FB.api(
         "/me",
         "GET",
-        { fields: "name,albums{cover_photo,photos{images}}" },
+        { fields: "name,albums{name,cover_photo,photos{images}}" },
         userData => {
           console.log("userdata: ", userData);
           let result = { ...response, user: userData };
